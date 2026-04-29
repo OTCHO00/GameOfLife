@@ -1,10 +1,11 @@
 class Grid {
-    constructor() {
+    constructor(width, height, cellSize) {
 
-        this.row = 10;
-        this.col = 10;
-        this.cells = new Set();
+        this.pause = true;
+        this.row = width / cellSize;
+        this.col = height / cellSize;
         this.generation = 0;
+        this.cells = new Set();
 
     }
 
@@ -16,7 +17,7 @@ class Grid {
 
     cell_exist(r, c) {
 
-        if (this.set.has(`${r}, ${c}`)) {
+        if (this.cells.has(`${r},${c}`)) {
 
             return true;
 
@@ -28,7 +29,7 @@ class Grid {
 
     }
 
-    toggle_cel(r, c) {
+    toggle_cell(r, c) {
 
         if (this.cell_exist(r, c)) {
 
@@ -42,11 +43,11 @@ class Grid {
 
     }
 
-    count_neighbors(r, c) {
+    count_neighbors(row, col) {
 
-        count_n = 0;
+        let count_n = 0;
 
-        directions = [
+        let directions = [
             [-1, 0],
             [0, -1],
             [1, 0],
@@ -57,16 +58,21 @@ class Grid {
             [1, -1],
         ];
 
-        for (x = 0; x < directions.length; x++) {
+        for (let x = 0; x < directions.length; x++) {
 
-            ligne = directions[x];
-            [r, c] = [r + directions[0], c + directions[1]];
+            let ligne = directions[x];
+            let r = row + ligne[0];
+            let c = col + ligne[1]
 
             if (0 <= r && r < this.row) {
 
                 if (0 <= c && c < this.col) {
 
-                    count_n += 1;
+                    if (this.cell_exist(r, c)) {
+
+                        count_n += 1;
+
+                    }
 
                 }
 
@@ -80,7 +86,7 @@ class Grid {
 
     apply_rules(r, c, cnt_nbrs) {
 
-        if (this.cell_exist()) {
+        if (this.cell_exist(r, c)) {
 
             if (cnt_nbrs == 0 || cnt_nbrs == 1 || cnt_nbrs >= 4){
 
@@ -94,23 +100,23 @@ class Grid {
 
             }
 
+        } else {
+
+            if (cnt_nbrs == 3) {
+
+                return true;
+
+            }
+
             else {
 
-                if (cnt_nbrs == 3) {
-
-                    return true;
-
-                }
-
-                else {
-
-                    return false;
-
-                }
+                return false;
 
             }
 
         }
+
+        
 
     }
 
@@ -118,26 +124,26 @@ class Grid {
 
     count_alives() {
 
-        return this.cells.length
+        return this.cells.size
 
     }
 
     clear() {
 
         this.generation = 0;
-        this.clear()
+        this.cells.clear();  
 
     }
 
     update() {
 
-        new_cells = new Set();
+        let new_cells = new Set();
 
-        for (x = 0; x < this.row; x ++) {
+        for (let x = 0; x < this.row; x ++) {
 
-            for (y = 0; y < this.col; y ++) {
+            for (let y = 0; y < this.col; y ++) {
 
-                cnt_nbrs = this.count_neighbors(x, y);
+                let cnt_nbrs = this.count_neighbors(x, y);
 
                 if (this.apply_rules(x, y, cnt_nbrs)) {
 
@@ -150,7 +156,12 @@ class Grid {
         }
 
         this.cells = new_cells;
-        this.generation += 1;
+
+        if (this.cells.size > 0) {
+
+            this.generation += 1;
+
+        }
 
     }
 

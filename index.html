@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Game of Life</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #0a0a0a; overflow: hidden; }
+        canvas { display: block; }
+
+        #info {
+            position: fixed;
+            bottom: 14px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 11px;
+            color: #333;
+            font-family: monospace;
+            letter-spacing: 1px;
+            display: none;
+        }
+
+        /* ── Onglet raccourcis ── */
+        #key-panel {
+            position: fixed;
+            bottom: 0;
+            right: 28px;
+            display: none;
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        #key-content {
+            background: #111;
+            border: 1px solid #222;
+            border-bottom: none;
+            padding: 0 18px;
+            overflow: hidden;
+            max-height: 0;
+            transition: max-height 0.35s ease, padding 0.35s ease;
+        }
+
+        #key-panel.open #key-content {
+            max-height: 200px;
+            padding: 14px 18px;
+        }
+
+        #key-content table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        #key-content td {
+            font-family: monospace;
+            font-size: 11px;
+            padding: 3px 0;
+        }
+
+        #key-content td:first-child {
+            color: #fff;
+            padding-right: 20px;
+            letter-spacing: 1px;
+        }
+
+        #key-content td:last-child {
+            color: #444;
+            letter-spacing: 1px;
+        }
+
+        #key-tab {
+            background: #111;
+            border: 1px solid #222;
+            border-bottom: none;
+            padding: 6px 18px;
+            cursor: pointer;
+            font-family: monospace;
+            font-size: 10px;
+            color: #444;
+            letter-spacing: 2px;
+            text-align: center;
+            user-select: none;
+            transition: color 0.2s, border-color 0.2s;
+        }
+
+        #key-tab:hover { color: #fff; border-color: #555; }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+
+    <div id="info">génération : <span id="gen">0</span></div>
+
+    <div id="key-panel">
+        <div id="key-content">
+            <table>
+                <tr><td>SPACE</td><td>start / pause</td></tr>
+                <tr><td>C</td><td>clear</td></tr>
+                <tr><td>↑ → +</td><td>accélérer</td></tr>
+                <tr><td>↓ ← -</td><td>ralentir</td></tr>
+                <tr><td>CLICK</td><td>toggle cellule</td></tr>
+                <tr><td>DRAG</td><td>déplacer la vue</td></tr>
+                <tr><td>SCROLL</td><td>zoom</td></tr>
+            </table>
+        </div>
+        <div id="key-tab">KEYS ▲</div>
+    </div>
+
+    <script src="js/grid.js"></script>
+    <script src="js/render.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/input.js"></script>
+    <script src="js/intro.js"></script>
+
+    <script>
+        const keyPanel = document.getElementById('key-panel');
+        const keyTab   = document.getElementById('key-tab');
+        keyTab.addEventListener('click', () => {
+            const open = keyPanel.classList.toggle('open');
+            keyTab.textContent = open ? 'KEYS ▼' : 'KEYS ▲';
+        });
+    </script>
+</body>
+</html>
