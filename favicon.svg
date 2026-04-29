@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <rect width="32" height="32" fill="#0a0a0a"/>
+  <!-- Glider : .X. / ..X / XXX  — cellule 8px, gap 1px, centré -->
+  <rect x="12" y="3"  width="7" height="7" fill="#ffffff"/>
+  <rect x="21" y="12" width="7" height="7" fill="#ffffff"/>
+  <rect x="3"  y="21" width="7" height="7" fill="#ffffff"/>
+  <rect x="12" y="21" width="7" height="7" fill="#ffffff"/>
+  <rect x="21" y="21" width="7" height="7" fill="#ffffff"/>
+</svg>
